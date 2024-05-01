@@ -23,6 +23,7 @@ jobs:
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
   test:
+    needs: trunk_check
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

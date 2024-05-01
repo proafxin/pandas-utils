@@ -1,5 +1,7 @@
 name: Tox Build
 
+permissions: read-all
+
 on:
   push:
     branches: [develop]
@@ -7,12 +9,25 @@ on:
     branches: [develop]
 
 jobs:
+  trunk_check:
+    name: Trunk Check Runner
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write # For trunk to post annotations
+      contents: read # For repo checkout
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@v1
   test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - uses: actions/checkout@v2

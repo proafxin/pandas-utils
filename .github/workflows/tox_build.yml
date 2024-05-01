@@ -41,6 +41,7 @@ jobs:
 
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
+
   tox:
     needs: trunk_check
     runs-on: ${{ matrix.os }}
@@ -61,7 +62,8 @@ jobs:
           python -m pip install -U tox tox-gh-actions
       - name: Test with tox
         run: tox
-  run:
+
+  coverage:
     needs: tox
     runs-on: ${{ matrix.os }}
     strategy:
@@ -75,7 +77,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Generate coverage report
-
         run: |
           curl https://api.ipify.org
           pip install -U pip

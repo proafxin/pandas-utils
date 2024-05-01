@@ -13,6 +13,11 @@ documentation = "https://pandas-utils.readthedocs.io/en/latest/"
 python = "^3.9"
 pandas = ">=1.5.3"
 sqlalchemy = "^1.4.0"
+pymongo = "^4.7.1"
+sqlalchemy-utils = "^0.41.2"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.3.7"
 
 [tool.bandit]
 exclude_dirs = ["tests"]

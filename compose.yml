@@ -3,25 +3,6 @@ services:
     image: postgres:latest
     environment:
       - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
-      # - MYSQL_HOST='localhost'
-      # - MYSQL_USER='root'
-      # - MYSQL_PASSWORD=Ha5h1rama2022
-      # - MYSQL_PORT=3306
-      # - SQLSERVER_HOST='localhost'
-      # - SQLSERVER_USER='sa'
-      # - SQLSERVER_PASSWORD='Ha5h1rama2022'
-      # - SQLSERVER_PORT=1433
-
-      # - MONGO_HOST='cluster0.gqdzkg0.mongodb.net'
-      # - MONGO_USER='root_mongo_atlas'
-      # - MONGO_PASSWORD='rKb7fpZjt9EUk3874ytjku'
-      # - MONGO_PORT=27017
-      # - LOCAL_MONGO_HOST='127.0.0.1'
-      # - LOCAL_MONGO_USER='root'
-      # - LOCAL_MONGO_PASSWORD='Ha5h1rama2022'
-
-      # - GOOGLE_APPLICATION_CREDENTIALS="/home/masum/able-groove-375119-891d6e31d057.json"
-      # - BIGQUERY_DATASET='1'
     ports:
       - ${POSTGRESQL_PORT}:${POSTGRESQL_PORT}
     healthcheck:

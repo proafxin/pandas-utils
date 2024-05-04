@@ -3,22 +3,25 @@ services:
     container_name: mysql
     image: mysql:latest
     restart: always
+    # docker container run -d -i -p 3306:3306 -e MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD --name mysql mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DBNAME}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DBNAME}
+      - MYSQL_TCP_PORT=${MYSQL_PORT}
     ports:
       - ${MYSQL_PORT}:${MYSQL_PORT}
     healthcheck:
       test: mysqladmin ping -h "$$MYSQL_HOST"
       timeout: 10s
       retries: 2
-    networks:
-      - pdextras
-    volumes:
-      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    # networks:
+    #   - host
+    # volumes:
+    #   - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   postgres:
     container_name: postgres
+    # docker container run -i -d -p 5432:5432 -e POSTGRES_PASSWORD=$POSTGRESQL_PASSWORD  postgres
     image: postgres:latest
     environment:
       - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
@@ -31,11 +34,12 @@ services:
       interval: 5s
       timeout: 5s
       retries: 2
-    networks:
-      - pdextras
+    # networks:
+    #   - host
 
   sqlserver:
     container_name: sqlserver
+    # docker container run -d -i -p 1433:1433 -e SA_PASSWORD=$SQLSERVER_PASSWORD -e ACCEPT_EULA=Y --name sqlserver mcr.microsoft.com/mssql/server:latest
     image: mcr.microsoft.com/mssql/server:latest
     environment:
       - SA_PASSWORD=${SQLSERVER_PASSWORD}
@@ -46,8 +50,8 @@ services:
       timeout: 3s
       retries: 3
       start_period: 10s
-    networks:
-      - pdextras
+    # networks:
+    #   - host
     ports:
       - ${SQLSERVER_PORT}:${SQLSERVER_PORT}
 
@@ -58,10 +62,6 @@ services:
       - mysql
       - postgres
       - sqlserver
-    # ports:
-    #   - ${POSTGRESQL_PORT}:${POSTGRESQL_PORT}
-    #   - ${MYSQL_PORT}:${MYSQL_PORT}
-    #   - ${SQLSERVER_PORT}:${SQLSERVER_PORT}
     environment:
       - MYSQL_HOST=${MYSQL_HOST}
       - MYSQL_USER=${MYSQL_USER}
@@ -88,8 +88,7 @@ services:
         condition: service_healthy
       sqlserver:
         condition: service_healthy
-    networks:
-      - pdextras
-
-networks:
-  pdextras:
+    # networks:
+    #   - host
+# networks:
+#   host:

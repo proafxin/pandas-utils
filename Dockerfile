@@ -8,7 +8,7 @@ ENV POETRY_HOME='/usr/local/'
 ENV PATH="${PATH}:${POETRY_HOME}"
 
 
-RUN apt-get update && apt-get install libpq-dev python3-dev default-libmysqlclient-dev build-essential curl -y --no-install-recommends\
+RUN apt-get update && apt-get install libpq-dev python3-dev libmariadbd-dev default-libmysqlclient-dev build-essential curl -y --no-install-recommends\
     && curl -sSL https://install.python-poetry.org | python3 -
 WORKDIR /app
 COPY . /app/

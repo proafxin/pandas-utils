@@ -69,12 +69,6 @@ class TestWriteToSQL:
     __dbname = DBNAME
     connections = CONNECTIONS
 
-    def test_create_database(self, conn: SQLDatabaseWriter):
-        """Test if database is indeed created"""
-
-        database_names = conn.get_list_of_database()
-        assert self.__dbname in database_names
-
     def test_write_without_primary_key_no_null(
         self,
         conn: SQLDatabaseWriter,

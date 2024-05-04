@@ -5,6 +5,7 @@ from io import StringIO
 import pandas as pd
 import pytest
 import requests
+
 from pd_extras.check.sanitize import clean_column
 
 

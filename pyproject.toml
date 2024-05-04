@@ -12,7 +12,7 @@ documentation = "https://pandas-utils.readthedocs.io/en/latest/"
 [tool.poetry.dependencies]
 python = "^3.9"
 pandas = ">=1.5.3"
-sqlalchemy = "^1.4.0"
+sqlalchemy = "<2.0"
 pymongo = "^4.7.1"
 sqlalchemy-utils = "^0.41.2"
 mysqlclient = "^2.2.4"

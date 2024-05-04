@@ -44,6 +44,9 @@ jobs:
 
   tox:
     needs: trunk_check
+    services:
+      postgres:
+        image: postgres:latest
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

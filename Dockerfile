@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install libpq-dev python3-dev default-libmysqlclie
     && curl -sSL https://install.python-poetry.org | python3 -
 WORKDIR /app
 COPY . /app/
+
 RUN python3 -m pip install -U tox
 
 

@@ -16,7 +16,7 @@ saved_values = {
     },
     "mysql": {
         "dialect": "mysql",
-        "driver": "+mysqldb",
+        "driver": "+pymysql",
         "query": {
             "db_list": "SHOW DATABASES;",
             "table_list": """SHOW TABLES FROM %s""",

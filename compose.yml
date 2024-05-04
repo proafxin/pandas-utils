@@ -1,57 +1,95 @@
 services:
   mysql:
+    container_name: mysql
     image: mysql:latest
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DBNAME}
     ports:
       - ${MYSQL_PORT}:${MYSQL_PORT}
     healthcheck:
-      test:
-        [
-          "CMD",
-          "mysqladmin",
-          "ping",
-          "-h",
-          "localhost",
-          "-u",
-          "$$MYSQL_PORT",
-          "-p$$MYSQL_ROOT_PASSWORD",
-        ]
-      timeout: 5s
+      test: mysqladmin ping -h "$$MYSQL_HOST"
+      timeout: 10s
       retries: 2
     networks:
       - pdextras
+    volumes:
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
   postgres:
+    container_name: postgres
     image: postgres:latest
     environment:
       - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
-      - POSTGRES_USER=${POSTGRESQL_USER}
+      - PGUSER=${POSTGRESQL_USER}
       - POSTGRES_DB=${MYSQL_DBNAME}
     ports:
       - ${POSTGRESQL_PORT}:${POSTGRESQL_PORT}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRESQL_USER"]
+      test: pg_isready -U "$$POSTGRESQL_USER" -p "$$POSTGRESQL_PORT"
       interval: 5s
       timeout: 5s
       retries: 2
     networks:
       - pdextras
-  python:
-    build: ./
+
+  sqlserver:
+    container_name: sqlserver
+    image: mcr.microsoft.com/mssql/server:latest
     environment:
+      - SA_PASSWORD=${SQLSERVER_PASSWORD}
+      - ACCEPT_EULA=Y
+    healthcheck:
+      test: timeout 1 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/1433'
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - pdextras
+    ports:
+      - ${SQLSERVER_PORT}:${SQLSERVER_PORT}
+
+  python:
+    container_name: pdextras
+    build: ./
+    links:
+      - mysql
+      - postgres
+      - sqlserver
+    # ports:
+    #   - ${POSTGRESQL_PORT}:${POSTGRESQL_PORT}
+    #   - ${MYSQL_PORT}:${MYSQL_PORT}
+    #   - ${SQLSERVER_PORT}:${SQLSERVER_PORT}
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DBNAME=${MYSQL_DBNAME}
       - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
       - POSTGRESQL_HOST=${POSTGRESQL_HOST}
       - POSTGRESQL_USER=${POSTGRESQL_USER}
       - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
       - POSTGRESQL_PORT=${POSTGRESQL_PORT}
-
+      - SQLSERVER_HOST=${SQLSERVER_HOST}
+      - SQLSERVER_USER=${SQLSERVER_USER}
+      - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}
+      - SQLSERVER_PORT=${SQLSERVER_PORT}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_PORT=${MONGO_PORT}
     depends_on:
       mysql:
         condition: service_healthy
       postgres:
         condition: service_healthy
+      sqlserver:
+        condition: service_healthy
     networks:
       - pdextras
+
 networks:
   pdextras:

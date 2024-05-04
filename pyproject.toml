@@ -15,9 +15,18 @@ pandas = ">=1.5.3"
 sqlalchemy = "^1.4.0"
 pymongo = "^4.7.1"
 sqlalchemy-utils = "^0.41.2"
+mysqlclient = "^2.2.4"
+psycopg2 = "^2.9.9"
+pymssql = "^2.3.0"
+pymysql = "^1.1.0"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^7.3.7"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+coverage = "^7.5.0"
 
 [tool.bandit]
 exclude_dirs = ["tests"]

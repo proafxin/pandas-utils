@@ -10,8 +10,6 @@
 .idea
 .data
 .sass-cache
-tests
-README.md
 Dockerfile
 Dockerfile.archive
 docker-compose.yml

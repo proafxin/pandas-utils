@@ -1,4 +1,4 @@
-name: Tox Build
+name: Tox and Coverage
 
 permissions: read-all
 

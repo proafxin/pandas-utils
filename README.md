@@ -1,6 +1,6 @@
 # Pandas Extras
 
-![Build](https://github.com/proafxin/pandas-utils/actions/workflows/tox_build.yml/badge.svg)
+[![Code check, Test and Coverage, Build and deploy](https://github.com/proafxin/pd-extras/actions/workflows/build_deploy.yml/badge.svg)](https://github.com/proafxin/pd-extras/actions/workflows/build_deploy.yml)
 [![codecov](https://codecov.io/gh/proafxin/pd-extras/graph/badge.svg?token=AQA0IJY4N1)](https://codecov.io/gh/proafxin/pd-extras)
 [![Documentation Status](https://readthedocs.org/projects/pd-extras/badge/?version=latest)](https://pd-extras.readthedocs.io/en/latest/?badge=latest)
 

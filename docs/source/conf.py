@@ -33,5 +33,6 @@ exclude_patterns = []
 html_theme = "alabaster"
 
 html_theme_options = {}
+html_context = {"default_mode": "dark"}
 
 html_static_path = []

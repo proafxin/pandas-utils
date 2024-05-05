@@ -3,8 +3,9 @@
 import os
 
 import pandas as pd
-from pd_extras.write.nosql_writer import NoSQLDatabaseWriter
 from pymongo import results
+
+from pd_extras.write.nosql_writer import NoSQLDatabaseWriter
 
 DBNAME = "_testdb_"
 
@@ -18,15 +19,6 @@ MONGO_CONNECTION = NoSQLDatabaseWriter(
     dns_seed_list=True,
 )
 
-# LOCALHOST_CONN = NoSQLDatabaseWriter(
-#     dbtype="mongo",
-#     host=os.environ["LOCAL_MONGO_HOST"],
-#     dbname=DBNAME,
-#     user=os.environ["LOCAL_MONGO_USER"],
-#     password=os.environ["LOCAL_MONGO_PASSWORD"],
-#     port=int(os.environ["MONGO_PORT"]),
-#     dns_seed_list=False,
-# )
 
 CONNECTIONS = (("mongo", {"conn": MONGO_CONNECTION}),)
 

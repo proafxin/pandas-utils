@@ -55,40 +55,40 @@ services:
     ports:
       - ${SQLSERVER_PORT}:${SQLSERVER_PORT}
 
-  python:
-    container_name: pdextras
-    build: ./
-    links:
-      - mysql
-      - postgres
-      - sqlserver
-    environment:
-      - MYSQL_HOST=${MYSQL_HOST}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_PORT=${MYSQL_PORT}
-      - MYSQL_DBNAME=${MYSQL_DBNAME}
-      - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
-      - POSTGRESQL_HOST=${POSTGRESQL_HOST}
-      - POSTGRESQL_USER=${POSTGRESQL_USER}
-      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
-      - POSTGRESQL_PORT=${POSTGRESQL_PORT}
-      - SQLSERVER_HOST=${SQLSERVER_HOST}
-      - SQLSERVER_USER=${SQLSERVER_USER}
-      - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}
-      - SQLSERVER_PORT=${SQLSERVER_PORT}
-      - MONGO_HOST=${MONGO_HOST}
-      - MONGO_USER=${MONGO_USER}
-      - MONGO_PASSWORD=${MONGO_PASSWORD}
-      - MONGO_PORT=${MONGO_PORT}
-    depends_on:
-      mysql:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
-      sqlserver:
-        condition: service_healthy
-    # networks:
-    #   - host
+  # python:
+  #   container_name: pdextras
+  #   build: ./
+  #   links:
+  #     - mysql
+  #     - postgres
+  #     - sqlserver
+  #   environment:
+  #     - MYSQL_HOST=${MYSQL_HOST}
+  #     - MYSQL_USER=${MYSQL_USER}
+  #     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  #     - MYSQL_PORT=${MYSQL_PORT}
+  #     - MYSQL_DBNAME=${MYSQL_DBNAME}
+  #     - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
+  #     - POSTGRESQL_HOST=${POSTGRESQL_HOST}
+  #     - POSTGRESQL_USER=${POSTGRESQL_USER}
+  #     - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+  #     - POSTGRESQL_PORT=${POSTGRESQL_PORT}
+  #     - SQLSERVER_HOST=${SQLSERVER_HOST}
+  #     - SQLSERVER_USER=${SQLSERVER_USER}
+  #     - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}
+  #     - SQLSERVER_PORT=${SQLSERVER_PORT}
+  #     - MONGO_HOST=${MONGO_HOST}
+  #     - MONGO_USER=${MONGO_USER}
+  #     - MONGO_PASSWORD=${MONGO_PASSWORD}
+  #     - MONGO_PORT=${MONGO_PORT}
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #     postgres:
+  #       condition: service_healthy
+  #     sqlserver:
+  #       condition: service_healthy
+  # networks:
+  #   - host
 # networks:
 #   host:

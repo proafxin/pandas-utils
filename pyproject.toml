@@ -17,8 +17,7 @@ sqlalchemy-utils = "^0.41.2"
 mysqlclient = "^2.2.4"
 psycopg2 = "^2.9.9"
 pymssql = "^2.3.0"
-pymysql = "^1.1.0"
-sqlalchemy = "^2.0.29"
+sqlalchemy = "^1"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^7.3.7"

@@ -1,4 +1,4 @@
-name: Tox and Coverage
+name: Code check, Test and Coverage, Build and deploy
 
 permissions: read-all
 
@@ -102,3 +102,17 @@ jobs:
           files: ./coverage.xml
           name: codecov-pd-extras
           verbose: true
+  deploy:
+    needs: coverage
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.11"]
+    steps:
+      - name: Publish to Pypi
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+          poetry build
+          poetry publish

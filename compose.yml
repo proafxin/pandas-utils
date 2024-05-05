@@ -1,0 +1,94 @@
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    # docker container run -d -i -p 3306:3306 -e MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD --name mysql mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DBNAME}
+      - MYSQL_TCP_PORT=${MYSQL_PORT}
+    ports:
+      - ${MYSQL_PORT}:${MYSQL_PORT}
+    healthcheck:
+      test: mysqladmin ping -h "$$MYSQL_HOST"
+      timeout: 10s
+      retries: 2
+    # networks:
+    #   - host
+    # volumes:
+    #   - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  postgres:
+    container_name: postgres
+    # docker container run -i -d -p 5432:5432 -e POSTGRES_PASSWORD=$POSTGRESQL_PASSWORD  postgres
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
+      - PGUSER=${POSTGRESQL_USER}
+      - POSTGRES_DB=${MYSQL_DBNAME}
+    ports:
+      - ${POSTGRESQL_PORT}:${POSTGRESQL_PORT}
+    healthcheck:
+      test: pg_isready -U "$$POSTGRESQL_USER" -p "$$POSTGRESQL_PORT"
+      interval: 5s
+      timeout: 5s
+      retries: 2
+    # networks:
+    #   - host
+
+  sqlserver:
+    container_name: sqlserver
+    # docker container run -d -i -p 1433:1433 -e SA_PASSWORD=$SQLSERVER_PASSWORD -e ACCEPT_EULA=Y --name sqlserver mcr.microsoft.com/mssql/server:latest
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      - SA_PASSWORD=${SQLSERVER_PASSWORD}
+      - ACCEPT_EULA=Y
+    healthcheck:
+      test: timeout 1 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/1433'
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    # networks:
+    #   - host
+    ports:
+      - ${SQLSERVER_PORT}:${SQLSERVER_PORT}
+
+  # python:
+  #   container_name: pdextras
+  #   build: ./
+  #   links:
+  #     - mysql
+  #     - postgres
+  #     - sqlserver
+  #   environment:
+  #     - MYSQL_HOST=${MYSQL_HOST}
+  #     - MYSQL_USER=${MYSQL_USER}
+  #     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  #     - MYSQL_PORT=${MYSQL_PORT}
+  #     - MYSQL_DBNAME=${MYSQL_DBNAME}
+  #     - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
+  #     - POSTGRESQL_HOST=${POSTGRESQL_HOST}
+  #     - POSTGRESQL_USER=${POSTGRESQL_USER}
+  #     - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+  #     - POSTGRESQL_PORT=${POSTGRESQL_PORT}
+  #     - SQLSERVER_HOST=${SQLSERVER_HOST}
+  #     - SQLSERVER_USER=${SQLSERVER_USER}
+  #     - SQLSERVER_PASSWORD=${SQLSERVER_PASSWORD}
+  #     - SQLSERVER_PORT=${SQLSERVER_PORT}
+  #     - MONGO_HOST=${MONGO_HOST}
+  #     - MONGO_USER=${MONGO_USER}
+  #     - MONGO_PASSWORD=${MONGO_PASSWORD}
+  #     - MONGO_PORT=${MONGO_PORT}
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #     postgres:
+  #       condition: service_healthy
+  #     sqlserver:
+  #       condition: service_healthy
+  # networks:
+  #   - host
+# networks:
+#   host:

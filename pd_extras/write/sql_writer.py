@@ -1,9 +1,7 @@
 """Write a pandas dataframe to a SQL database table"""
 
-
 import pandas as pd
 from pandas.api.types import is_integer_dtype, is_numeric_dtype  # type: ignore
-from pd_extras.write.common import saved_values
 from sqlalchemy import (
     Column,
     Float,
@@ -16,6 +14,8 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Session
 from sqlalchemy_utils import create_database, database_exists
+
+from pd_extras.write.common import saved_values
 
 
 class SQLDatabaseWriter:
@@ -63,32 +63,6 @@ class SQLDatabaseWriter:
         engine = create_engine(connection_string, future=True)
 
         return engine
-
-    def get_data_from_query(self, query: str):
-        """Execute a single query on the current database.
-
-        :param query: SQL statement to execute.
-        :type query: `str`
-        :return: Pandas dataframe with result of query.
-        :rtype: `pd.DataFrame`
-        """
-
-        with self.__engine.connect() as conn:
-            return pd.read_sql(sql=text(query), con=conn)
-
-    def get_list_of_database(self):
-        """Get list of databases.
-
-        :return: List containing database names.
-        :rtype: `list[str]`
-        """
-
-        query = saved_values[self.__dbtype]["query"]["db_list"]
-
-        res = self.get_data_from_query(query=query)
-        database_names = res[res.columns[0]].to_numpy()
-
-        return database_names
 
     def get_column_info(self, table_name: str):
         """Get table schema from database.

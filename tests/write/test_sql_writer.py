@@ -5,10 +5,11 @@ import random
 
 import numpy as np
 import pandas as pd
-from pd_extras.write.sql_writer import SQLDatabaseWriter
 from sqlalchemy.engine.cursor import CursorResult
 
-DBNAME = "__test_db__"
+from pd_extras.write.sql_writer import SQLDatabaseWriter
+
+DBNAME = os.environ["MYSQL_DBNAME"]
 
 MYSQL_CONNECTION = SQLDatabaseWriter(
     dbtype="mysql",
@@ -67,12 +68,6 @@ class TestWriteToSQL:
 
     __dbname = DBNAME
     connections = CONNECTIONS
-
-    def test_create_database(self, conn: SQLDatabaseWriter):
-        """Test if database is indeed created"""
-
-        database_names = conn.get_list_of_database()
-        assert self.__dbname in database_names
 
     def test_write_without_primary_key_no_null(
         self,

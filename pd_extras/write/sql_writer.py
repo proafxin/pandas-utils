@@ -36,8 +36,12 @@ class SQLDatabaseWriter:
         password: str,
         port: int,
     ):
-        assert dbtype in saved_values, f"{dbtype} not in {list(saved_values.keys())}"
-        assert dbname is not None, "`dbname` must be a valid database name"
+        if dbtype not in saved_values:
+            raise KeyError(f"{dbtype} not in {list(saved_values.keys())}")
+
+        if not dbname:
+            raise ValueError("`dbname` must be a valid database name")
+
         self.__dbtype = dbtype
         self.__dbname = dbname
         port = int(port)

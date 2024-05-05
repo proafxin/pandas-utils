@@ -64,7 +64,9 @@ jobs:
           python -m pip install -U pip
           python -m pip install -U tox
       - name: Tox
-        run: tox
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          tox
 
   coverage:
     needs: tox

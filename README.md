@@ -10,6 +10,10 @@ Some functions on top of pandas.
 
 Run `python -m pip install -U pip` and `pip install -U pip poetry`. Then run `poetry install`. If you are facing issues installing `mysqlclient` or `psycopg2` on Ubuntu, it's because you are missing some libraries. Please check their pages. Usually for `psycopg2`, it's `libpq-dev` and for `mysqlclient`, it's `python3-dev default-libmysqlclient-dev build-essential`. Check the pages for more specific and accurate commands.
 
+## Testing
+
+Run `docker compose up` then `tox`. Obviously you need docker and tox installed.
+
 ## Generate Documentation Source Files
 
 You should not have to do this but in case you want to generate the source ReStructuredText files yourself, here is how. Skip to the next section to simply generate html documentation locally.

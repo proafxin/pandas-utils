@@ -5,20 +5,20 @@ description = "Some utility functions on top of pandas."
 authors = ["Masum Billal <billalmasum93@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/proafxin/pandas-utils"
-documentation = "https://pandas-utils.readthedocs.io/en/latest/"
+repository = "https://github.com/proafxin/pd-extras"
+documentation = "https://pd-extras.readthedocs.io/en/latest/"
 
 
 [tool.poetry.dependencies]
 python = "^3.9"
 pandas = ">=1.5.3"
-sqlalchemy = "<2.0"
 pymongo = "^4.7.1"
 sqlalchemy-utils = "^0.41.2"
 mysqlclient = "^2.2.4"
 psycopg2 = "^2.9.9"
 pymssql = "^2.3.0"
 pymysql = "^1.1.0"
+sqlalchemy = "^2.0.29"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^7.3.7"
@@ -27,11 +27,6 @@ sphinx = "^7.3.7"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"
 coverage = "^7.5.0"
-
-[tool.bandit]
-exclude_dirs = ["tests"]
-tests = ["B201", "B301"]
-skips = ["B101", "B601"]
 
 [build-system]
 requires = ["poetry-core"]

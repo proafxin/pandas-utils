@@ -26,6 +26,7 @@ env:
   MONGO_PASSWORD: ${{ vars.MONGO_PASSWORD }}
   MONGO_PORT: ${{ vars.MONGO_PORT }}
   BIGQUERY_DATASET: ${{ vars.BIGQUERY_DATASET }}
+  MYSQL_DBNAME: ${{vars.MYSQL_DBNAME }}
 
 jobs:
   trunk_check:

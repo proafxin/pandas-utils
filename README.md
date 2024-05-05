@@ -3,6 +3,12 @@
 [![Code check, Test and Coverage, Build and deploy](https://github.com/proafxin/pd-extras/actions/workflows/build_deploy.yml/badge.svg)](https://github.com/proafxin/pd-extras/actions/workflows/build_deploy.yml)
 [![codecov](https://codecov.io/gh/proafxin/pd-extras/graph/badge.svg?token=AQA0IJY4N1)](https://codecov.io/gh/proafxin/pd-extras)
 [![Documentation Status](https://readthedocs.org/projects/pd-extras/badge/?version=latest)](https://pd-extras.readthedocs.io/en/latest/?badge=latest)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pd-extras)
+![PyPI - Version](https://img.shields.io/pypi/v/pd-extras)
+![PyPI - Format](https://img.shields.io/pypi/format/pd-extras)
+![PyPI - Implementation](https://img.shields.io/pypi/implementation/pd-extras)
+![Docker Image Version (tag)](https://img.shields.io/docker/v/_/postgres/latest?arch=amd64)
+![Docker Image Version (tag)](https://img.shields.io/docker/v/_/mysql/latest?arch=amd64)
 
 Some functions on top of pandas.
 

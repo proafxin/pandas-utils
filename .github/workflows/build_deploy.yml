@@ -63,6 +63,7 @@ jobs:
           python -m pip install -U tox
       - name: Tox
         run: |
+          echo ${{ secrets.CODECOV_TOKEN }}
           curl -sSL https://install.python-poetry.org | python3 -
           tox
 
@@ -99,7 +100,6 @@ jobs:
           files: ./coverage.xml
           name: codecov-pd-extras
           verbose: true
-          run: echo ${{ secrets.CODECOV_TOKEN }}
 
   deploy:
     needs: coverage

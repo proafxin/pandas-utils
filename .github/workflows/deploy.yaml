@@ -8,7 +8,7 @@ on:
   workflow_run:
     workflows: [Tox-build]
     branches: [develop]
-    types: [requested]
+    types: [completed]
 
 jobs:
   pypi_publish:
@@ -17,7 +17,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python-version: ["3.11"]
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -26,6 +26,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Publish to Pypi
         run: |
+          echo ${{ github.event.workflow_run }}
           curl -sSL https://install.python-poetry.org | python3 -
           poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
           poetry build

@@ -7,7 +7,6 @@ on:
     branches: [develop]
   workflow_run:
     workflows: [Test code and upload coverage]
-    types: [completed]
     branches: [develop]
 
 jobs:

@@ -4,6 +4,7 @@ import os
 
 import pandas as pd
 from pymongo import results
+from pymongo.collection import Collection
 
 from pd_extras.write.nosql_writer import NoSQLDatabaseWriter
 
@@ -16,7 +17,6 @@ MONGO_CONNECTION = NoSQLDatabaseWriter(
     user=os.environ["MONGO_USER"],
     password=os.environ["MONGO_PASSWORD"],
     port=int(os.environ["MONGO_PORT"]),
-    dns_seed_list=True,
 )
 
 
@@ -24,11 +24,7 @@ CONNECTIONS = (("mongo", {"conn": MONGO_CONNECTION}),)
 
 
 def pytest_generate_tests(metafunc):
-    """Generate pytest Tests for all connections
-
-    :param metafunc: _description_
-    :type metafunc: _type_
-    """
+    """Generate pytest Tests for all connections"""
 
     idlist = []
     argvalues = []
@@ -62,6 +58,9 @@ class TestNoSQLDatabaseWriter:
 
         collection_name = "test_collection"
 
+        collection = conn.get_or_create_collection(collection_name=collection_name)
+        assert isinstance(collection, Collection)
+
         count_initial = conn.get_document_count(collection_name=collection_name)
 
         res = conn.write_data_to_collection(collection_name=collection_name, data=data)
@@ -90,6 +89,7 @@ class TestNoSQLDatabaseWriter:
     def test_drop_database(self, conn: NoSQLDatabaseWriter):
         """Test dropping database."""
 
+        conn.delete_database()
         database_names = conn.get_list_of_databases()
         assert DBNAME not in database_names
         conn.close_connection()

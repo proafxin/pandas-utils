@@ -54,6 +54,15 @@ services:
     #   - host
     ports:
       - ${SQLSERVER_PORT}:${SQLSERVER_PORT}
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    ports:
+      - ${MONGO_PORT}:${MONGO_PORT}
 
   # python:
   #   container_name: pdextras

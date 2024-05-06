@@ -1,8 +1,9 @@
 """Write a pandas dataframe to a NoSQL database collection"""
 
-
 import pandas as pd
 import pymongo
+from pymongo.collection import Collection
+
 from pd_extras.write.common import nosql_dbtypes
 
 __all__ = ["NoSQLDatabaseWriter"]
@@ -51,7 +52,7 @@ class MongoDatabaseWriter:
     def _get_list_of_collections(self):
         return self.__db.list_collection_names()
 
-    def _get_or_create_collection(self, collection_name: str):
+    def _get_or_create_collection(self, collection_name: str) -> Collection:
         collection = self.__db[collection_name]
 
         return collection
@@ -69,13 +70,13 @@ class MongoDatabaseWriter:
 
         return collection.count_documents({})
 
-    def _delete_collection(self, collection_name: str):
+    def _delete_collection(self, collection_name: str) -> None:
         self.__db.drop_collection(collection_name)
 
-    def _delete_database(self):
+    def _delete_database(self) -> None:
         self.__client.drop_database(name_or_database=self.__dbname)
 
-    def _close_connection(self):
+    def _close_connection(self) -> None:
         self.__client.close()
 
 
@@ -93,7 +94,7 @@ class NoSQLDatabaseWriter:
         dns_seed_list: bool = False,
     ) -> None:
         if dbtype not in nosql_dbtypes:
-            raise ValueError(f"{dbtype} not in {nosql_dbtypes}")
+            raise KeyError(f"{dbtype} not in {nosql_dbtypes}")
 
         self.__dbtype = dbtype
 
@@ -115,17 +116,14 @@ class NoSQLDatabaseWriter:
         port: int,
         dns_seed_list: bool = False,
     ):
-        if self.__dbtype == "mongo":
-            return MongoDatabaseWriter(
-                host=host,
-                dbname=dbname,
-                user=user,
-                password=password,
-                port=port,
-                dns_seed_list=dns_seed_list,
-            )
-
-        return None
+        return MongoDatabaseWriter(
+            host=host,
+            dbname=dbname,
+            user=user,
+            password=password,
+            port=port,
+            dns_seed_list=dns_seed_list,
+        )
 
     def get_list_of_databases(self):
         """List names of databses in this connection.

@@ -4,14 +4,16 @@ permissions: read-all
 
 on:
   workflow_run:
-    workflows: [Code check, Test and Coverage]
+    workflows: [Test code and upload coverage]
+    branches: [develop]
     types:
       - completed
   push:
     branches: [develop]
 
 jobs:
-  deploy:
+  pypi_publish:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

@@ -66,7 +66,6 @@ jobs:
           python -m pip install -U tox
       - name: Tox
         run: |
-          echo ${{ secrets.CODECOV_TOKEN }}
           curl -sSL https://install.python-poetry.org | python3 -
           tox
           tox -e coverage

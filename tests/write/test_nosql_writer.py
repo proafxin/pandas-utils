@@ -60,7 +60,7 @@ class TestNoSQLDatabaseWriter:
     ):
         """Test writing data to collections."""
 
-        collection_name = "_test_collection_"
+        collection_name = "test_collection"
 
         count_initial = conn.get_document_count(collection_name=collection_name)
 

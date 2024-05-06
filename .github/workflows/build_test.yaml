@@ -1,4 +1,4 @@
-name: Tox-build
+name: Build, test with Tox and deploy
 
 permissions: read-all
 

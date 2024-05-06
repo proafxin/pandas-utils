@@ -3,22 +3,21 @@ name: Deploy to Pypi
 permissions: read-all
 
 on:
+  push:
+    branches: [develop]
   workflow_run:
     workflows: [Test code and upload coverage]
-    branches: [develop]
-    types:
-      - completed
-  push:
+    types: [completed]
     branches: [develop]
 
 jobs:
   pypi_publish:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
         python-version: ["3.11"]
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}

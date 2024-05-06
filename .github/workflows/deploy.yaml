@@ -6,8 +6,9 @@ on:
   push:
     branches: [develop]
   workflow_run:
-    workflows: [Test code and upload coverage]
+    workflows: [Tox-build]
     branches: [develop]
+    types: [completed]
 
 jobs:
   pypi_publish:

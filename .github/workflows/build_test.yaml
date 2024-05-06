@@ -1,4 +1,4 @@
-name: Test code and upload coverage
+name: Tox-build
 
 permissions: read-all
 

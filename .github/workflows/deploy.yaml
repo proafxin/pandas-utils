@@ -1,10 +1,10 @@
-name: Upload coverage and Deploy to Pypi
+name: Deploy to Pypi
 
 permissions: read-all
 
 on:
   workflow_run:
-    workflows: [Check code and test coverage]
+    workflows: [Test code and upload coverage]
     branches: [develop]
     types:
       - completed

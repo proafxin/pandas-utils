@@ -1,4 +1,4 @@
-name: Check code and test coverage
+name: Test code and upload coverage
 
 permissions: read-all
 

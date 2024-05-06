@@ -8,7 +8,7 @@ on:
   workflow_run:
     workflows: [Tox-build]
     branches: [develop]
-    types: [completed]
+    types: [requested]
 
 jobs:
   pypi_publish:

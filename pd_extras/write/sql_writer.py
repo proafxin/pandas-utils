@@ -87,7 +87,7 @@ class SQLDatabaseWriter:
             self.__dbname,
             table_name,
         )
-        session = sa_session.execute(query)
+        session = sa_session.execute(text(query))
         cursor = session.cursor  # type: ignore
         cols = [detail[0] for detail in cursor.description]
         res = cursor.fetchall()
@@ -161,7 +161,7 @@ class SQLDatabaseWriter:
         id_col: str,
         max_length: int = 100,
     ):
-        metadata = MetaData(self.__engine)
+        metadata = MetaData()
         columns = []
 
         if id_col:

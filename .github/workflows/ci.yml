@@ -1,11 +1,11 @@
-name: Code check, Test and Coverage, Build and deploy
+name: Code check, Test and Coverage
 
 permissions: read-all
 
 on:
-  push:
-    branches: [develop]
   pull_request:
+    branches: [develop]
+  push:
     branches: [develop]
 
 env:
@@ -100,23 +100,3 @@ jobs:
           files: ./coverage.xml
           name: codecov-pd-extras
           verbose: true
-
-  deploy:
-    needs: coverage
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        python-version: ["3.11"]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Publish to Pypi
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
-          poetry build
-          poetry publish

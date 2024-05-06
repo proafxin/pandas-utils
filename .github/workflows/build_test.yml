@@ -1,4 +1,4 @@
-name: Code check, Test and Coverage
+name: Check code and test coverage
 
 permissions: read-all
 
@@ -66,37 +66,4 @@ jobs:
           echo ${{ secrets.CODECOV_TOKEN }}
           curl -sSL https://install.python-poetry.org | python3 -
           tox
-
-  coverage:
-    needs: tox
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        python-version: ["3.11"]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - uses: adambirds/docker-compose-action@v1.3.0
-        with:
-          compose-file: compose.yml
-      - name: Generate coverage report
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          pip install -U pip
-          poetry install --with dev
-          poetry run coverage run -m pytest tests/
-          poetry run coverage xml -o coverage.xml
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./
-          env_vars: OS,PYTHON
-          fail_ci_if_error: true
-          files: ./coverage.xml
-          name: codecov-pd-extras
-          verbose: true
+          tox -e tests

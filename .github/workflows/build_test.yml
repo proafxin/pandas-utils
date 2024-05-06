@@ -69,7 +69,7 @@ jobs:
           echo ${{ secrets.CODECOV_TOKEN }}
           curl -sSL https://install.python-poetry.org | python3 -
           tox
-          poetry run coverage xml -o coverage.xml
+          tox -e coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:

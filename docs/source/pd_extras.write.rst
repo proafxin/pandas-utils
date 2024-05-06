@@ -12,14 +12,6 @@ pd\_extras.write.common module
    :undoc-members:
    :show-inheritance:
 
-pd\_extras.write.driver module
-------------------------------
-
-.. automodule:: pd_extras.write.driver
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 pd\_extras.write.nosql\_writer module
 -------------------------------------
 

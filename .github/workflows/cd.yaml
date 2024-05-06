@@ -1,4 +1,4 @@
-name: Code check, Test and Coverage
+name: Deploy to Pypi
 
 permissions: read-all
 

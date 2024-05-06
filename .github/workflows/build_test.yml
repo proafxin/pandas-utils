@@ -43,7 +43,7 @@ jobs:
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
 
-  tox:
+  tox_upload:
     needs: trunk_check
     runs-on: ${{ matrix.os }}
     strategy:
@@ -57,6 +57,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+      - uses: adambirds/docker-compose-action@v1.3.0
+        with:
+          compose-file: compose.yml
       - name: Install dependencies
         run: |
           python -m pip install -U pip
@@ -66,4 +69,14 @@ jobs:
           echo ${{ secrets.CODECOV_TOKEN }}
           curl -sSL https://install.python-poetry.org | python3 -
           tox
-          tox -e tests
+          poetry run coverage xml -o coverage.xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./
+          env_vars: OS,PYTHON
+          fail_ci_if_error: true
+          files: ./coverage.xml
+          name: codecov-pd-extras
+          verbose: true

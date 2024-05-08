@@ -7,12 +7,13 @@ import numpy as np
 import pandas as pd
 from sqlalchemy.engine.cursor import CursorResult
 
+from pd_extras.write.driver import SQLDatabaseType
 from pd_extras.write.sql_writer import SQLDatabaseWriter
 
 DBNAME = os.environ["MYSQL_DBNAME"]
 
 MYSQL_CONNECTION = SQLDatabaseWriter(
-    dbtype="mysql",
+    dbtype=SQLDatabaseType.MYSQL,
     host=os.environ["MYSQL_HOST"],
     dbname=DBNAME,
     user=os.environ["MYSQL_USER"],
@@ -21,7 +22,7 @@ MYSQL_CONNECTION = SQLDatabaseWriter(
 )
 
 POSTGRE_CONNECTION = SQLDatabaseWriter(
-    dbtype="postgresql",
+    dbtype=SQLDatabaseType.POSTGRES,
     host=os.environ["POSTGRESQL_HOST"],
     dbname=DBNAME,
     user=os.environ["POSTGRESQL_USER"],
@@ -29,7 +30,7 @@ POSTGRE_CONNECTION = SQLDatabaseWriter(
     port=int(os.environ["POSTGRESQL_PORT"]),
 )
 SQLSERVER_CONNECTION = SQLDatabaseWriter(
-    dbtype="sqlserver",
+    dbtype=SQLDatabaseType.SQLSERVER,
     host=os.environ["SQLSERVER_HOST"],
     dbname=DBNAME,
     user=os.environ["SQLSERVER_USER"],

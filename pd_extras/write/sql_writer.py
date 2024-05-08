@@ -15,7 +15,8 @@ from sqlalchemy import (
 from sqlalchemy.orm import Session
 from sqlalchemy_utils import create_database, database_exists
 
-from pd_extras.write.common import saved_values
+from pd_extras.write.common import META_INFO_QUERIES
+from pd_extras.write.driver import SQLDatabaseType
 
 
 class SQLDatabaseWriter:
@@ -29,20 +30,17 @@ class SQLDatabaseWriter:
 
     def __init__(
         self,
-        dbtype: str,
+        dbtype: SQLDatabaseType,
         host: str,
         dbname: str,
         user: str,
         password: str,
         port: int,
     ):
-        if dbtype not in saved_values:
-            raise KeyError(f"{dbtype} not in {list(saved_values.keys())}")
-
-        if not dbname:
+        if not dbname or len(dbname) < 1:
             raise ValueError("`dbname` must be a valid database name")
 
-        self.__dbtype = dbtype
+        self.__dbtype = dbtype.value
         self.__dbname = dbname
         port = int(port)
 
@@ -57,8 +55,8 @@ class SQLDatabaseWriter:
             create_database(self.__engine.url)
 
     def _get_db_specific_engine(self, host: str, user: str, password: str, port: int):
-        dialect = saved_values[self.__dbtype]["dialect"]
-        driver = saved_values[self.__dbtype]["driver"]
+        dialect = META_INFO_QUERIES[self.__dbtype]["dialect"]
+        driver = META_INFO_QUERIES[self.__dbtype]["driver"]
 
         connection_string = (
             f"{dialect}{driver}://{user}:{password}@{host}:{port}/{self.__dbname}"
@@ -78,7 +76,7 @@ class SQLDatabaseWriter:
         """
 
         sa_session = Session(self.__engine)
-        _saved_values: dict = saved_values[self.__dbtype]
+        _saved_values: dict = META_INFO_QUERIES[self.__dbtype]
 
         self._check_name(name=self.__dbname)
         self._check_name(name=table_name)
@@ -88,14 +86,14 @@ class SQLDatabaseWriter:
             table_name,
         )
         session = sa_session.execute(text(query))
-        cursor = session.cursor  # type: ignore
+        cursor = session.cursor
         cols = [detail[0] for detail in cursor.description]
         res = cursor.fetchall()
         res = [list(row) for row in res]
 
         info = pd.DataFrame(res, columns=cols)
         columns: list = [str(column.lower()) for column in info.columns.tolist()]
-        info.columns = columns  # type: ignore
+        info.columns = columns
 
         session.close()
 
@@ -128,8 +126,6 @@ class SQLDatabaseWriter:
         for column, status in zip(columns, nullable_status):
             if id_col == column:
                 continue
-            if column not in data.columns:
-                raise ValueError(f"{column} not in columns: {data.columns.tolist()}")
 
             if status.lower() == "no":
                 if data[column].dropna().shape[0] < data.shape[0]:

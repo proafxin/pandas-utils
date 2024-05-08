@@ -47,7 +47,7 @@ services:
     healthcheck:
       test: timeout 1 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/1433'
       interval: 10s
-      timeout: 3s
+      timeout: 30s
       retries: 3
       start_period: 10s
     # networks:

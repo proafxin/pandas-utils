@@ -1,7 +1,9 @@
 """Common variables for dataframe to database module"""
 
-saved_values = {
-    "sqlserver": {
+from pd_extras.write.driver import SQLDatabaseType
+
+META_INFO_QUERIES = {
+    SQLDatabaseType.SQLSERVER.value: {
         "dialect": "mssql",
         "driver": "+pymssql",
         "query": {
@@ -14,7 +16,7 @@ saved_values = {
                 TABLE_SCHEMA = 'dbo' AND TABLE_NAME = '%s';""",
         },
     },
-    "mysql": {
+    SQLDatabaseType.MYSQL.value: {
         "dialect": "mysql",
         "driver": "+mysqldb",
         "query": {
@@ -25,7 +27,7 @@ saved_values = {
                 WHERE table_schema='%s' and table_name='%s';""",
         },
     },
-    "postgresql": {
+    SQLDatabaseType.POSTGRES.value: {
         "dialect": "postgresql",
         "driver": "+psycopg2",
         "query": {

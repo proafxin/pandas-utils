@@ -29,22 +29,7 @@ env:
   MYSQL_DBNAME: ${{vars.MYSQL_DBNAME }}
 
 jobs:
-  trunk_check:
-    name: Trunk Check Runner
-    runs-on: ubuntu-latest
-    permissions:
-      checks: write
-      contents: read
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-
-      - name: Trunk Check
-        uses: trunk-io/trunk-action@main
-
   test_publish:
-    needs: trunk_check
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -53,6 +38,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@main
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@master
         with:
@@ -68,8 +55,11 @@ jobs:
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           tox
-          tox -e coverage
-      - name: Upload coverage to Codecov
+      - if: ${{ github.event_name == 'push' && matrix.python-version == 3.12 }}
+        name: Export Coverage XML
+        run: tox -e coverage
+      - if: ${{ github.event_name == 'push' && matrix.python-version == 3.12 }}
+        name: Upload coverage to Codecov
         uses: codecov/codecov-action@main
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

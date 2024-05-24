@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pd-extras"
-version = "6.1.0"
+version = "6.1.1"
 description = "Some utility functions on top of pandas."
 authors = ["Masum Billal <billalmasum93@gmail.com>"]
 license = "MIT"
@@ -10,7 +10,7 @@ documentation = "https://pd-extras.readthedocs.io/en/latest/"
 
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.11"
 pandas = ">=1.5.3"
 pymongo = "^4.7.1"
 sqlalchemy-utils = "^0.41.2"
@@ -21,6 +21,7 @@ sqlalchemy = "^2.0.30"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^7.3.7"
+furo = "^2024.5.6"
 
 
 [tool.poetry.group.dev.dependencies]

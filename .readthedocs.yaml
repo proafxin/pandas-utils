@@ -8,12 +8,8 @@ build:
     - python3 -m pip install -U pip
     - python3 -m pip install -U tox
     - tox -e docs
-  # jobs:
-  #   post_create_environment:
-  #     - pip install poetry
-  #     - poetry config virtualenvs.create false
-  #   post_install:
-  #     - poetry install --with docs
+    - mkdir --parents $READTHEDOCS_OUTPUT/html/
+    - cp --recursive docs/* $READTHEDOCS_OUTPUT/html/
 
 sphinx:
   configuration: docs/source/conf.py

@@ -1,5 +1,7 @@
 # Pandas Extras
 
+## This is now being developed and maintained [here](https://github.com/proafxin/xin).
+
 [![Build, test with Tox and deploy](https://github.com/proafxin/pd-extras/actions/workflows/build_test.yaml/badge.svg)](https://github.com/proafxin/pd-extras/actions/workflows/build_test.yaml)
 [![codecov](https://codecov.io/gh/proafxin/pd-extras/graph/badge.svg?token=AQA0IJY4N1)](https://codecov.io/gh/proafxin/pd-extras)
 [![Documentation Status](https://readthedocs.org/projects/pd-extras/badge/?version=latest)](https://pd-extras.readthedocs.io/en/latest/?badge=latest)
